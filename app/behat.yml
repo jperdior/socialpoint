@@ -1,0 +1,7 @@
+default:
+    suites:
+        default:
+            paths:
+                - tests/Functional/Features
+            contexts:
+                - Tests\Functional\Contexts\FeatureContext
