@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace SP\Application\Router;
 
-use SP\Presentation\Controller\Ranking\GetRankingController;
+use SP\Application\Router\ValueObject\RouteMatchedValueObject;
+use SP\Presentation\Controller\User\GetRankingController;
 use SP\Presentation\Controller\User\ModifyScoreController;
 
 class Router
@@ -22,21 +23,29 @@ class Router
     ];
 
 
-    public function match(string $method, string $path): ?callable
+    public function match(string $method, string $path): ?RouteMatchedValueObject
     {
+
         $controller =  $this->routes[$method][$path] ?? null;
         if (null === $controller) {
             foreach ($this->routes[$method] as $route => $controller) {
-                $params = $this->matchWithParams($path, $route);
+                $params = $this->matchWithParams(
+                    path: $path,
+                    route: $route
+                );
                 if ($params !== null) {
-                    return function () use ($controller, $params) {
-                        return call_user_func_array([new $controller(), '__invoke'], $params);
-                    };
+                    return new RouteMatchedValueObject(
+                        controller: $controller,
+                        params: $params
+                    );
                 }
             }
             return null;
         }
-        return new $controller();
+        return new RouteMatchedValueObject(
+            controller: $controller,
+            params: []
+        );
     }
 
     private function matchWithParams(string $path, string $route): ?array
