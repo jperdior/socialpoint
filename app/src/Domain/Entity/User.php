@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace SP\Domain\Entity;
 
-class User{
+class User
+{
 
     private string $id;
 

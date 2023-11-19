@@ -7,17 +7,16 @@ namespace SP\Infrastructure\Data\Repository;
 use DI\Container;
 use SP\Domain\Entity\User;
 use SP\Domain\Repository\UserRepositoryInterface;
+use SP\Infrastructure\Data\DatasetStorage;
 
 class UserRepository implements UserRepositoryInterface
 {
 
     private array $dataset;
 
-    public function __construct(
-        private readonly Container $container
-    )
+    public function __construct()
     {
-        $this->dataset =$this->container->get('dataset');
+        $this->dataset = DatasetStorage::getDataset();
     }
 
     public function getScore(User $user): bool
@@ -28,6 +27,12 @@ class UserRepository implements UserRepositoryInterface
         }
         $user->setScore($score);
         return true;
+    }
+
+    public function saveScore(User $user): void
+    {
+        $this->dataset[$user->getId()] = $user->getScore();
+        DatasetStorage::updateDataset($this->dataset);
     }
 
 

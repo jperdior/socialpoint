@@ -1,18 +1,18 @@
 <?php
 
 namespace SP\Infrastructure\Http;
-use DI\Container;
+
 use DI\ContainerBuilder;
-use Monolog\Handler\StreamHandler;
-use Monolog\Level;
-use Monolog\Logger;
-use SP\Domain\Repository\UserRepositoryInterface;
-use SP\Infrastructure\Data\Repository\UserRepository;
+use DI\Container;
 use \SP\Infrastructure\Kernel as KernelInterface;
 use \SP\Infrastructure\Request as RequestInterface;
 use \SP\Infrastructure\Response as ResponseInterface;
 use SP\Application\Router\Router;
-use function DI\create;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use SP\Infrastructure\Data\DatasetStorage;
 
 class Kernel implements KernelInterface {
 
@@ -24,14 +24,17 @@ class Kernel implements KernelInterface {
 
     private function __construct(private array $dataset)
     {
-        $log = new Logger('name');
-        $log->pushHandler(new StreamHandler('/var/log/social_point.log', Level::Warning));
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions([
-            UserRepositoryInterface::class => create(UserRepository::class)
+            SerializerInterface::class => $serializer
         ]);
         $this->container = $containerBuilder->build();
-        $this->container->set('dataset', $this->dataset);
+        DatasetStorage::updateDataset($this->dataset);
     }
 
     public function run(RequestInterface $request): ResponseInterface {

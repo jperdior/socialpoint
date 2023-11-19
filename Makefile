@@ -9,6 +9,10 @@ behat:
 	docker-compose exec -u $(shell id -u):$(shell id -g) php vendor/bin/behat
 .PHONY: behat
 
+behat-feature:
+	docker-compose exec -u $(shell id -u):$(shell id -g) php vendor/bin/behat /tests/Functional/Features/${FEATURE}.feature
+.PHONY: behat-feature
+
 start: docker-build docker-up composer-install
 
 stop:

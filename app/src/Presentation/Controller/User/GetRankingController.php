@@ -6,9 +6,9 @@ namespace SP\Presentation\Controller\User;
 
 use SP\Infrastructure\Http\Response;
 use SP\Infrastructure\Request;
-use SP\Presentation\Controller\ControllerInterface;
+use SP\Presentation\Controller\AbstractController;
 
-class GetRankingController implements ControllerInterface
+class GetRankingController extends AbstractController
 {
 
     public function __invoke(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SP\Application\Command;
 
+use SP\Domain\Entity\User;
 use SP\Domain\Exception\UserNotFoundException;
 use SP\Domain\UseCase\User\ModifyAbsoluteScoreUseCase;
 use SP\Domain\UseCase\User\ModifyRelativeScoreUseCase;
@@ -20,16 +21,14 @@ class ModifyScoreMessageHandler
     /**
      * @throws UserNotFoundException
      */
-    public function handle(ModifyScoreMessage $message): void
+    public function handle(ModifyScoreMessage $message): User
     {
         try{
             switch ($message->operation) {
                 case 'absolute':
-                    $this->modifyAbsoluteScoreUseCase->execute($message->userId, $message->score);
-                    break;
+                    return $this->modifyAbsoluteScoreUseCase->execute($message->userId, $message->score);
                 case 'relative':
-                    $this->modifyRelativeScoreUseCase->execute($message->userId, $message->score);
-                    break;
+                    return $this->modifyRelativeScoreUseCase->execute($message->userId, $message->score);
             }
         }
         catch (\Exception $exception){

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SP\Domain\UseCase\User;
 
+use SP\Domain\Entity\User;
+use SP\Domain\Exception\UserNotFoundException;
 use SP\Infrastructure\Data\Repository\UserRepository;
 
 class ModifyAbsoluteScoreUseCase
@@ -15,13 +17,22 @@ class ModifyAbsoluteScoreUseCase
     {
     }
 
+    /**
+     * @throws UserNotFoundException
+     */
     public function execute(
         string $userId,
         int $total
-    ): void
+    ): User
     {
-        $user = $this->userRepository->find($userId);
-        dump($user);die;
+        $user = new User(
+            id: $userId
+        );
+        if(false === $this->userRepository->getScore(user: $user)){
+            throw new UserNotFoundException();
+        }
+        $user->setScore($total);
+        return $user;
     }
 
 }
