@@ -62,12 +62,10 @@ class Router
 
         foreach ($routeParts as $index => $routePart) {
             if ($routePart !== $pathParts[$index] && $routePart !== '%s') {
-                // If the route part doesn't match and isn't a parameter, return null
                 return null;
             }
 
             if ($routePart === '%s') {
-                // If it's a parameter, add it to the $params array
                 $params[] = $pathParts[$index];
             }
         }

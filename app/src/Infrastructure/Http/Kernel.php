@@ -5,10 +5,13 @@ namespace SP\Infrastructure\Http;
 use DI;
 use DI\ContainerBuilder;
 use DI\Container;
+use Monolog\Logger;
+use SP\Domain\Logging\LoggerInterface;
 use SP\Domain\Repository\UserRepositoryInterface;
 use SP\Infrastructure\Data\Redis\RedisClient;
 use SP\Infrastructure\Data\Repository\UserRepository;
 use \SP\Infrastructure\Kernel as KernelInterface;
+use SP\Infrastructure\Logger\SocialPointLogger;
 use \SP\Infrastructure\Request as RequestInterface;
 use \SP\Infrastructure\Response as ResponseInterface;
 use SP\Application\Router\Router;
@@ -52,6 +55,7 @@ class Kernel implements KernelInterface {
                 ->constructor(
                     redisClient: DI\get(RedisClient::class)
                 ),
+            LoggerInterface::class => create(SocialPointLogger::class)
         ];
     }
 

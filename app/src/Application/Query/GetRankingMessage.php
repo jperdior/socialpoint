@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace SP\Application\Query;
 
-class GetRankingMessage
+readonly class GetRankingMessage
 {
 
     public function __construct(
-        public readonly string $type,
+        public string $type,
     )
     {
     }
