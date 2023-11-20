@@ -12,7 +12,6 @@
         "ext-sqlite3": "*",
         "symfony/var-dumper": "^6.3",
         "symfony/serializer": "^6.3",
-        "symfony/messenger": "^6.3",
         "php-di/php-di": "^7.0",
         "symfony/property-access": "^6.3",
         "monolog/monolog": "^3.5",
