@@ -8,7 +8,7 @@ interface ValidatorInterface
 {
 
     public function validate(
-        array $body
-    ): void;
+        array $data
+    ): array;
 
 }

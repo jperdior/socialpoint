@@ -32,6 +32,7 @@ class ModifyAbsoluteScoreUseCase
             throw new UserNotFoundException();
         }
         $user->setScore($total);
+        $this->userRepository->saveScore(user: $user);
         return $user;
     }
 

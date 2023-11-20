@@ -143,7 +143,7 @@ class FeatureContext implements Context
      */
     public function theScoreOfTheUserShouldBe(string $userId, int $expectedScore)
     {
-        $this->askForARanking("top5");
+        $this->askForARanking("top100");
         $statusCode = $this->response->getStatusCode();
         if ($statusCode != 200) {
             throw new \Exception('Expected a 200, but received a ' . $statusCode.' when ask for the ranking');

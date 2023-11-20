@@ -28,13 +28,11 @@ class ModifyScoreController extends AbstractController
     ): Response
     {
         $body = json_decode($request->getBody(), true);
-        try{
-            $this->validator->validate($body);
-        }
-        catch (\Exception $exception){
+        $errors = $this->validator->validate($body);
+        if (count($errors) > 0) {
             return new Response(
                 statusCode: 400,
-                body: $exception->getMessage()
+                body: $this->serializer->serialize($errors, 'json')
             );
         }
 
@@ -59,8 +57,6 @@ class ModifyScoreController extends AbstractController
                 body: $exception->getMessage()
             );
         }
-
-
     }
 
 }

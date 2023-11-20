@@ -7,6 +7,14 @@ services:
             - ./app:/code
         working_dir: /code
 
+    redis:
+        image: redis:7.2.3-alpine
+        ports:
+            - '6379:6379'
+        volumes:
+            - ./data/redis:/data
+        command: ["redis-server", "--requirepass", "password"]
+
     nginx:
         image: nginx:1.25.0-bullseye
         ports:

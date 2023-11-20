@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SP\Domain\UseCase\User;
 
-use SP\Domain\Entity\User;
 use SP\Infrastructure\Data\Repository\UserRepository;
 
 class GetAbsoluteRankingUseCase
@@ -16,9 +15,9 @@ class GetAbsoluteRankingUseCase
     {
     }
 
-    public function execute(User $user): int
+    public function execute(int $top): array
     {
-        return 1;
+        return $this->userRepository->getTop($top);
     }
 
 }

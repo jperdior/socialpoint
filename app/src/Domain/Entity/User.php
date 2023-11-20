@@ -9,11 +9,12 @@ class User
 
     private string $id;
 
-    private int $score;
+    private ?int $score;
 
-    public function __construct(string $id)
+    public function __construct(string $id, ?int $score = null)
     {
         $this->id = $id;
+        $this->score = $score;
     }
 
     public function getId(): string

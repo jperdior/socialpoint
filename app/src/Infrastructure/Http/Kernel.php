@@ -4,6 +4,7 @@ namespace SP\Infrastructure\Http;
 
 use DI\ContainerBuilder;
 use DI\Container;
+use SP\Infrastructure\Data\Redis\RedisClient;
 use \SP\Infrastructure\Kernel as KernelInterface;
 use \SP\Infrastructure\Request as RequestInterface;
 use \SP\Infrastructure\Response as ResponseInterface;
@@ -13,6 +14,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use SP\Infrastructure\Data\DatasetStorage;
+use function DI\create;
 
 class Kernel implements KernelInterface {
 
@@ -24,17 +26,35 @@ class Kernel implements KernelInterface {
 
     private function __construct(private array $dataset)
     {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions($this->initializeDefinitions());
+        $this->container = $containerBuilder->build();
+        $this->initializeDataset($this->dataset);
+    }
+
+    private function initializeDefinitions(): array
+    {
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
-
         $serializer = new Serializer($normalizers, $encoders);
 
-        $containerBuilder = new ContainerBuilder();
-        $containerBuilder->addDefinitions([
-            SerializerInterface::class => $serializer
-        ]);
-        $this->container = $containerBuilder->build();
-        DatasetStorage::updateDataset($this->dataset);
+        return [
+            SerializerInterface::class => $serializer,
+            RedisClient::class => create(RedisClient::class)
+                ->constructor(
+                    host: 'redis',
+                    port: 6379,
+                    password: 'password'
+                ),
+        ];
+    }
+
+    private function initializeDataset(array $dataset): void
+    {
+        $redisClient = $this->container->get(RedisClient::class);
+
+        $redisClient->initializeDataset('user', $dataset);
+
     }
 
     public function run(RequestInterface $request): ResponseInterface {

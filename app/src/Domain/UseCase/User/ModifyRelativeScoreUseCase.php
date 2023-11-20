@@ -33,6 +33,7 @@ class ModifyRelativeScoreUseCase
             throw new UserNotFoundException();
         }
         $user->setScore($user->getScore() + $score);
+        $this->userRepository->saveScore(user: $user);
         return $user;
     }
 

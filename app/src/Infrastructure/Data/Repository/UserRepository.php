@@ -8,32 +8,49 @@ use DI\Container;
 use SP\Domain\Entity\User;
 use SP\Domain\Repository\UserRepositoryInterface;
 use SP\Infrastructure\Data\DatasetStorage;
+use SP\Infrastructure\Data\Redis\RedisClient;
 
 class UserRepository implements UserRepositoryInterface
 {
 
-    private array $dataset;
+    private const KEY = 'user';
 
-    public function __construct()
+    public function __construct(
+        private readonly RedisClient $redisClient,
+    )
     {
-        $this->dataset = DatasetStorage::getDataset();
     }
 
     public function getScore(User $user): bool
     {
-        $score = $this->dataset[$user->getId()] ?? null;
+        $score = $this->redisClient->getClient()->hget(self::KEY, $user->getId());
         if ($score === null) {
             return false;
         }
-        $user->setScore($score);
+        $user->setScore((int)$score);
         return true;
     }
 
     public function saveScore(User $user): void
     {
-        $this->dataset[$user->getId()] = $user->getScore();
-        DatasetStorage::updateDataset($this->dataset);
+        $this->redisClient->getClient()->hset(self::KEY, $user->getId(), (string)$user->getScore());
     }
 
+    public function getTop(int $top): array
+    {
+        $users = $this->redisClient->getClient()->hgetall(self::KEY);
+        arsort($users);
+        return array_slice($users, 0, $top, true);
+    }
+
+    public function getRelativeRanking(int $position, int $range): array
+    {
+        $users = $this->redisClient->getClient()->hgetall(self::KEY);
+        arsort($users);
+
+        $startIndex = max(0, $position - $range -1);
+
+        return array_slice($users, $startIndex, $range * 2 + 1, true);
+    }
 
 }
