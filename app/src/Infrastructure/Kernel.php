@@ -1,6 +1,9 @@
 <?php
+
 /** This file can't be modified */
+
 namespace SP\Infrastructure;
+
 interface Kernel
 {
     public static function createWithDataSet(array $dataset): static;

@@ -6,7 +6,9 @@ readonly class Response implements \SP\Infrastructure\Response
 {
     public function __construct(
         private int    $statusCode,
-        private string $body) { }
+        private string $body
+    ) {
+    }
 
     public function getStatusCode(): int
     {

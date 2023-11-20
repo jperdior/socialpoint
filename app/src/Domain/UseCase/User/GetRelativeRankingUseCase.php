@@ -8,17 +8,15 @@ use SP\Domain\Repository\UserRepositoryInterface;
 
 class GetRelativeRankingUseCase
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    ){
+    ) {
     }
 
     public function execute(
         int $position,
         int $range
-    ): array
-    {
+    ): array {
         return $this->userRepository->getRelativeRanking(
             position: $position,
             range: $range

@@ -8,8 +8,8 @@ readonly class Request implements \SP\Infrastructure\Request
         private string $uri,
         private string $method,
         private array  $requestParameters,
-        private string $requestBody)
-    {
+        private string $requestBody
+    ) {
 
     }
 

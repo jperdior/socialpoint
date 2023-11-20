@@ -10,11 +10,9 @@ use SP\Domain\Repository\UserRepositoryInterface;
 
 class ModifyRelativeScoreUseCase
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
     }
 
     /**
@@ -23,12 +21,11 @@ class ModifyRelativeScoreUseCase
     public function execute(
         string $userId,
         int $score
-    ): User
-    {
+    ): User {
         $user = new User(
             id: $userId
         );
-        if(false === $this->userRepository->getScore(user: $user)){
+        if(false === $this->userRepository->getScore(user: $user)) {
             throw new UserNotFoundException();
         }
         $user->setScore($user->getScore() + $score);

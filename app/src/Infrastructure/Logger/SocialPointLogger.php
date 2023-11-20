@@ -11,7 +11,6 @@ use SP\Domain\Logging\LoggerInterface;
 
 class SocialPointLogger implements LoggerInterface
 {
-
     private Logger $logger;
 
     public function __construct()

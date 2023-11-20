@@ -8,20 +8,17 @@ use SP\Presentation\Validator\ValidatorInterface;
 
 class ModifyScoreValidator implements ValidatorInterface
 {
-
     private const FIELD_USER_ID = 'user_id';
     private const FIELD_SCORE = 'score';
     private const FIELD_TOTAL = 'total';
 
     public function __construct(
-    )
-    {
+    ) {
     }
 
     public function validate(
         array $data
-    ): array
-    {
+    ): array {
         $errors = [];
 
         if (!isset($data[self::FIELD_USER_ID])) {

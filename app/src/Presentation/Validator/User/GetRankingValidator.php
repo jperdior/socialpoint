@@ -8,8 +8,7 @@ use SP\Presentation\Validator\ValidatorInterface;
 
 class GetRankingValidator implements ValidatorInterface
 {
-
-    const FIELD_TOP = 'type';
+    public const FIELD_TOP = 'type';
 
     public function validate(array $data): array
     {

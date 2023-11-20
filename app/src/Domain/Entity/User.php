@@ -6,7 +6,6 @@ namespace SP\Domain\Entity;
 
 class User
 {
-
     private string $id;
 
     private ?int $score;

@@ -14,19 +14,16 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class GetRankingController extends AbstractController
 {
-
     public function __construct(
         private readonly GetRankingValidator $validator,
         private readonly GetRankingMessageHandler $queryHandler,
         private readonly SerializerInterface $serializer
-    )
-    {
+    ) {
     }
 
     public function __invoke(
         Request $request
-    ): Response
-    {
+    ): Response {
         $params = $request->getParameters();
         $errors = $this->validator->validate($params);
         if (count($errors) > 0) {
@@ -36,17 +33,16 @@ class GetRankingController extends AbstractController
             );
         }
         $top = $params['type'];
-        try{
+        try {
             $ranking = $this->queryHandler->handle(new GetRankingMessage(
                 type: $top
             ));
 
             return new Response(
                 statusCode: 200,
-                body: $this->serializer->serialize(['data'=>$ranking], 'json')
+                body: $this->serializer->serialize(['data' => $ranking], 'json')
             );
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return new Response(
                 statusCode: 500,
                 body: $exception->getMessage()

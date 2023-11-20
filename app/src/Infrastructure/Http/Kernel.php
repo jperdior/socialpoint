@@ -10,22 +10,24 @@ use SP\Domain\Logging\LoggerInterface;
 use SP\Domain\Repository\UserRepositoryInterface;
 use SP\Infrastructure\Data\Redis\RedisClient;
 use SP\Infrastructure\Data\Repository\UserRepository;
-use \SP\Infrastructure\Kernel as KernelInterface;
+use SP\Infrastructure\Kernel as KernelInterface;
 use SP\Infrastructure\Logger\SocialPointLogger;
-use \SP\Infrastructure\Request as RequestInterface;
-use \SP\Infrastructure\Response as ResponseInterface;
+use SP\Infrastructure\Request as RequestInterface;
+use SP\Infrastructure\Response as ResponseInterface;
 use SP\Application\Router\Router;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+
 use function DI\create;
 
-class Kernel implements KernelInterface {
-
+class Kernel implements KernelInterface
+{
     private Container $container;
 
-    public static function createWithDataSet(array $dataset): static {
+    public static function createWithDataSet(array $dataset): static
+    {
         return new static($dataset);
     }
 
@@ -67,7 +69,8 @@ class Kernel implements KernelInterface {
 
     }
 
-    public function run(RequestInterface $request): ResponseInterface {
+    public function run(RequestInterface $request): ResponseInterface
+    {
 
         $router = new Router();
         $routerMatch = $router->match($request->getMethod(), $request->getUri());

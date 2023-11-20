@@ -12,12 +12,11 @@ use SP\Domain\UseCase\User\ModifyRelativeScoreUseCase;
 
 readonly class ModifyScoreMessageHandler
 {
-
     public function __construct(
         private ModifyAbsoluteScoreUseCase $modifyAbsoluteScoreUseCase,
         private ModifyRelativeScoreUseCase $modifyRelativeScoreUseCase,
         private LoggerInterface $logger
-    ){
+    ) {
     }
 
     /**
@@ -25,7 +24,7 @@ readonly class ModifyScoreMessageHandler
      */
     public function handle(ModifyScoreMessage $message): User
     {
-        try{
+        try {
             switch ($message->operation) {
                 case 'absolute':
                     $this->logger->info('Modifying absolute score for user ' . $message->userId . ' by ' . $message->score);
@@ -37,8 +36,7 @@ readonly class ModifyScoreMessageHandler
                     $this->logger->error('Invalid operation');
                     throw new \Exception('Invalid operation');
             }
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             throw $exception;
         }
@@ -47,4 +45,3 @@ readonly class ModifyScoreMessageHandler
 
 
 }
-

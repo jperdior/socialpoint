@@ -6,6 +6,4 @@ namespace SP\Presentation\Controller;
 
 class AbstractController
 {
-
-
 }

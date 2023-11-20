@@ -10,11 +10,9 @@ use SP\Domain\Repository\UserRepositoryInterface;
 
 class ModifyAbsoluteScoreUseCase
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
     }
 
     /**
@@ -23,12 +21,11 @@ class ModifyAbsoluteScoreUseCase
     public function execute(
         string $userId,
         int $total
-    ): User
-    {
+    ): User {
         $user = new User(
             id: $userId
         );
-        if(false === $this->userRepository->getScore(user: $user)){
+        if(false === $this->userRepository->getScore(user: $user)) {
             throw new UserNotFoundException();
         }
         $user->setScore($total);

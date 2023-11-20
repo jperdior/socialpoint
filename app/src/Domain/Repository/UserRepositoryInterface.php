@@ -8,7 +8,6 @@ use SP\Domain\Entity\User;
 
 interface UserRepositoryInterface
 {
-
     public function getScore(User $user): bool;
 
 }

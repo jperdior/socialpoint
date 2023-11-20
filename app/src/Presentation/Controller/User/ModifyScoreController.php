@@ -14,19 +14,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ModifyScoreController extends AbstractController
 {
-
     public function __construct(
         private readonly ModifyScoreValidator $validator,
         private readonly ModifyScoreMessageHandler $commandHandler,
         private readonly SerializerInterface $serializer
-    ){
+    ) {
     }
 
     public function __invoke(
         Request $request,
         string $userId
-    ): Response
-    {
+    ): Response {
         $body = json_decode($request->getBody(), true);
         $errors = $this->validator->validate($body);
         if (count($errors) > 0) {
@@ -39,7 +37,7 @@ class ModifyScoreController extends AbstractController
         $total = $body['total'] ?? null;
         $score = $body['score'] ?? null;
 
-        try{
+        try {
             $user = $this->commandHandler->handle(new ModifyScoreMessage(
                 userId: $userId,
                 operation: $total ? 'absolute' : 'relative',
@@ -50,8 +48,7 @@ class ModifyScoreController extends AbstractController
                 statusCode: 200,
                 body: $this->serializer->serialize($user, 'json')
             );
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return new Response(
                 statusCode: 500,
                 body: $exception->getMessage()

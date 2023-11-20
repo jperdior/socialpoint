@@ -6,7 +6,6 @@ namespace SP\Presentation\Validator;
 
 interface ValidatorInterface
 {
-
     public function validate(
         array $data
     ): array;

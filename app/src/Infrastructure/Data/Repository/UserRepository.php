@@ -12,13 +12,11 @@ use SP\Infrastructure\Data\Redis\RedisClient;
 
 class UserRepository implements UserRepositoryInterface
 {
-
     private const KEY = 'user';
 
     public function __construct(
         private readonly RedisClient $redisClient,
-    )
-    {
+    ) {
     }
 
     public function getScore(User $user): bool
@@ -48,7 +46,7 @@ class UserRepository implements UserRepositoryInterface
         $users = $this->redisClient->getClient()->hgetall(self::KEY);
         arsort($users);
 
-        $startIndex = max(0, $position - $range -1);
+        $startIndex = max(0, $position - $range - 1);
 
         return array_slice($users, $startIndex, $range * 2 + 1, true);
     }

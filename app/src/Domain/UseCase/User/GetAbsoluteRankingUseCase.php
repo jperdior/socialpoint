@@ -8,11 +8,9 @@ use SP\Domain\Repository\UserRepositoryInterface;
 
 class GetAbsoluteRankingUseCase
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
     }
 
     public function execute(int $top): array

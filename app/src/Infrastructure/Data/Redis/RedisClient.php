@@ -8,15 +8,13 @@ use Predis\Client;
 
 class RedisClient
 {
-
     private Client $client;
 
     public function __construct(
         string $host,
         int $port,
         string $password
-    )
-    {
+    ) {
         $this->client = new Client([
             'scheme' => 'tcp',
             'host' => $host,
@@ -30,7 +28,7 @@ class RedisClient
         return $this->client;
     }
 
-    public function initializeDataset(string $key, array $dataset):void
+    public function initializeDataset(string $key, array $dataset): void
     {
         //delete all
         $this->client->del($key);

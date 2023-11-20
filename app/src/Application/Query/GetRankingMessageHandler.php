@@ -14,12 +14,11 @@ use SP\Domain\UseCase\User\ModifyRelativeScoreUseCase;
 
 readonly class GetRankingMessageHandler
 {
-
     public function __construct(
         private GetAbsoluteRankingUseCase $getAbsoluteRankingUseCase,
         private GetRelativeRankingUseCase $getRelativeRankingUseCase,
         private LoggerInterface $logger
-    ){
+    ) {
     }
 
     /**
@@ -28,7 +27,7 @@ readonly class GetRankingMessageHandler
      */
     public function handle(GetRankingMessage $message): array
     {
-        try{
+        try {
             preg_match('/top(\d+)/i', $message->type, $matches);
             if (!empty($matches[1])) {
                 $top = (int)$matches[1];
@@ -41,8 +40,7 @@ readonly class GetRankingMessageHandler
             }
             $this->logger->error('Invalid type');
             throw new \Exception('Invalid type');
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             throw $exception;
         }
@@ -51,4 +49,3 @@ readonly class GetRankingMessageHandler
 
 
 }
-

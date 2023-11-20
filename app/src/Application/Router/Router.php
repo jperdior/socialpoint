@@ -10,7 +10,6 @@ use SP\Presentation\Controller\User\ModifyScoreController;
 
 class Router
 {
-
     private array $routes = [
         'GET' => [
             '/ranking' => GetRankingController::class
