@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace SP\Domain\UseCase\User;
 
-use SP\Infrastructure\Data\Repository\UserRepository;
+use SP\Domain\Repository\UserRepositoryInterface;
 
 class GetRelativeRankingUseCase
 {
 
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepositoryInterface $userRepository
     ){
     }
 

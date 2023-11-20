@@ -2,9 +2,12 @@
 
 namespace SP\Infrastructure\Http;
 
+use DI;
 use DI\ContainerBuilder;
 use DI\Container;
+use SP\Domain\Repository\UserRepositoryInterface;
 use SP\Infrastructure\Data\Redis\RedisClient;
+use SP\Infrastructure\Data\Repository\UserRepository;
 use \SP\Infrastructure\Kernel as KernelInterface;
 use \SP\Infrastructure\Request as RequestInterface;
 use \SP\Infrastructure\Response as ResponseInterface;
@@ -13,7 +16,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-use SP\Infrastructure\Data\DatasetStorage;
 use function DI\create;
 
 class Kernel implements KernelInterface {
@@ -45,6 +47,10 @@ class Kernel implements KernelInterface {
                     host: 'redis',
                     port: 6379,
                     password: 'password'
+                ),
+            UserRepositoryInterface::class => create(UserRepository::class)
+                ->constructor(
+                    redisClient: DI\get(RedisClient::class)
                 ),
         ];
     }

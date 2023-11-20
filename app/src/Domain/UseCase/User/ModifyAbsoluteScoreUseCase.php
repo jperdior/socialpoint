@@ -6,13 +6,13 @@ namespace SP\Domain\UseCase\User;
 
 use SP\Domain\Entity\User;
 use SP\Domain\Exception\UserNotFoundException;
-use SP\Infrastructure\Data\Repository\UserRepository;
+use SP\Domain\Repository\UserRepositoryInterface;
 
 class ModifyAbsoluteScoreUseCase
 {
 
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepositoryInterface $userRepository
     )
     {
     }

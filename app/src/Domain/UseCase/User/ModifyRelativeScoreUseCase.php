@@ -7,13 +7,12 @@ namespace SP\Domain\UseCase\User;
 use SP\Domain\Entity\User;
 use SP\Domain\Exception\UserNotFoundException;
 use SP\Domain\Repository\UserRepositoryInterface;
-use SP\Infrastructure\Data\Repository\UserRepository;
 
 class ModifyRelativeScoreUseCase
 {
 
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepositoryInterface $userRepository
     )
     {
     }
